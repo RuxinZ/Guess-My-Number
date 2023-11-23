@@ -6,6 +6,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 8081,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001/api',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
   },
   build: {
     outDir: 'build', // output directory for the production build
