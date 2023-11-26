@@ -12,11 +12,6 @@ function App() {
   const [record, setRecord] = useState('');
   const [tentativeGuess, setTentativeGuess] = useState('');
 
-  const updateNumOfGuesses = () => {
-    if (numOfGuesses == 1) console.log('You lost!');
-    setNumOfGuesses(numOfGuesses - 1);
-  };
-
   const handleRestart = async () => {
     setGameStatus('loading');
 
@@ -43,7 +38,7 @@ function App() {
         {numOfGuesses > 1 ? 'guesses' : 'guess'} left
       </p>
       <Guess
-        updateNumOfGuesses={updateNumOfGuesses}
+        setNumOfGuesses={setNumOfGuesses}
         target={target}
         numOfGuesses={numOfGuesses}
         record={record}
@@ -51,15 +46,16 @@ function App() {
         tentativeGuess={tentativeGuess}
         setTentativeGuess={setTentativeGuess}
         gameStatus={gameStatus}
+        setGameStatus={setGameStatus}
       />
       {gameStatus === 'won' && (
         <Banner status="happy">
           <p>
             <strong>Congratulations!</strong> You got it in{' '}
             <strong>
-              {11 - numOfGuesses === 1
+              {10 - numOfGuesses === 1
                 ? '1 guess'
-                : `${11 - numOfGuesses} guesses`}
+                : `${10 - numOfGuesses} guesses`}
             </strong>
             .
           </p>
