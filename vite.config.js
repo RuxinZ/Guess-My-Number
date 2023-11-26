@@ -15,12 +15,12 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'build', // output directory for the production build
+    outDir: 'build',
     manifest: true,
     rollupOptions: {
       input: {
         server: './server/server.js',
-        client: './client/src/index.js',
+        client: './index.html',
       },
     },
   },
