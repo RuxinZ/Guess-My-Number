@@ -1,7 +1,6 @@
 // import { useState } from 'react';
 import { newRecord } from '../helper';
 function Guess({
-  updateNumOfGuesses,
   target,
   numOfGuesses,
   record,
@@ -37,24 +36,37 @@ function Guess({
   return (
     <>
       <form onSubmit={e => handleSubmit(e)}>
-        <label htmlFor="guess-input">Enter:</label>
+        <label htmlFor="guess-input">Enter a guess:</label>
         <input
+          className="w-60 m-4 border-b-2 p-2 rounded"
           id="guess-input"
           type="text"
           pattern={`^[0-7]{${digits}}$`} // TODO: verify input num within range
           value={tentativeGuess}
           onChange={e => handleChange(e)}
           disabled={gameStatus !== 'inGame'}
-          placeholder={`Please enter a ${digits}-digit number`}
+          placeholder={`Enter a ${digits}-digit number`}
           autoComplete="off"
         />
-        <button type="submit">Confirm</button>
+        <button
+          className="bg-slate-300 px-4 py-2 rounded my-2 border-b-2 disabled:opacity-45 "
+          type="submit"
+          disabled={gameStatus !== 'inGame'}
+        >
+          Confirm
+        </button>
       </form>
-      <div>
-        <h3>Record</h3>
-        {record.split('\n').map((str, i) => (
-          <p key={i}>{str}</p>
-        ))}
+      <div className="mx-auto flex flex-col items-center border-2 border-slate-200  rounded-lg">
+        <h3 className="text-xl font-bold my-4">Record</h3>
+        <div className="w-[500px] h-[280px]  p-4">
+          <div className=" mx-auto flex flex-col  ">
+            {record.split('\n').map((str, i) => (
+              <p className="flex" key={i}>
+                {str}
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
