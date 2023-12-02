@@ -4,16 +4,14 @@ const app = express();
 
 const PORT = 3001;
 
-app.get('/api', async (req, res) => {
-  const URL = `https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new`;
+app.use('/api/:num', async (req, res) => {
+  const { num } = req.params;
+  const URL = `https://www.random.org/integers/?num=${num}&min=0&max=7&col=1&base=10&format=plain&rnd=new`;
   try {
     const response = await fetch(URL);
     const data = await response.text();
-    // console.log('data server: ');
-    // console.log(data);
-    // console.log('end');
     let target = '';
-    for (let i = 0; i < 8; i += 2) {
+    for (let i = 0; i < num * 2; i += 2) {
       target += data[i];
     }
     res.locals.target = target;

@@ -7,15 +7,18 @@ import NewGameBtn from './NewGameBtn';
 function Game() {
   const [target, setTarget] = useState('');
   const [numOfGuesses, setNumOfGuesses] = useState(10);
-  const [gameStatus, setGameStatus] = useState('inGame'); // "inGame", "won", "lost", "loading", "error"
+  const [gameStatus, setGameStatus] = useState('toStart'); // "toStart", "inGame", "won", "lost", "loading", "error"
   const [record, setRecord] = useState('');
   const [tentativeGuess, setTentativeGuess] = useState('');
+  const [difficulty, setDifficulty] = useState('Normal'); // "Beginner", "Normal", "Expert"
+
+  const difficultyLevels = { Beginner: 3, Normal: 4, Expert: 5 };
 
   const handleRestart = async () => {
     setGameStatus('loading');
-
+    const URL = `/api/${difficultyLevels[difficulty]}`;
     try {
-      const res = await fetch('api');
+      const res = await fetch(URL);
       const json = await res.json();
       setGameStatus('inGame');
       setTarget(json);
@@ -29,13 +32,50 @@ function Game() {
 
   return (
     <>
-      <button onClick={handleRestart}>Start Game</button>
+      {gameStatus === 'toStart' && (
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            handleRestart();
+          }}
+        >
+          <fieldset>
+            <legend>Select difficulty:</legend>
+            {Object.keys(difficultyLevels).map(option => (
+              <div key={option}>
+                <input
+                  type="radio"
+                  name="current-level"
+                  id={option}
+                  value={option}
+                  checked={option === difficulty}
+                  onChange={event => {
+                    setDifficulty(event.target.value);
+                  }}
+                />
+                <label htmlFor={option}>{option}</label>
+              </div>
+            ))}
+          </fieldset>
+          <button>Start Game</button>
+        </form>
+      )}
+      <div>
+        <p>
+          {' '}
+          Difficulty Level: <strong>{difficulty}</strong>
+        </p>
+      </div>
+
       <p>Target: {target}</p>
-      <p>
-        {' '}
-        You have <strong>{numOfGuesses}</strong>{' '}
-        {numOfGuesses > 1 ? 'guesses' : 'guess'} left
-      </p>
+      {gameStatus !== 'toStart' && (
+        <p>
+          {' '}
+          You have <strong>{numOfGuesses}</strong>{' '}
+          {numOfGuesses > 1 ? 'guesses' : 'guess'} left
+        </p>
+      )}
+
       <Guess
         setNumOfGuesses={setNumOfGuesses}
         target={target}
@@ -46,6 +86,7 @@ function Game() {
         setTentativeGuess={setTentativeGuess}
         gameStatus={gameStatus}
         setGameStatus={setGameStatus}
+        digits={difficultyLevels[difficulty]}
       />
       {gameStatus === 'won' && (
         <Banner status="happy">

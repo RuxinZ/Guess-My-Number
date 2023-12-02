@@ -1,6 +1,5 @@
-// import History from './History';
 // import { useState } from 'react';
-import { newRecord, isValidInput } from '../helper';
+import { newRecord } from '../helper';
 function Guess({
   updateNumOfGuesses,
   target,
@@ -12,6 +11,7 @@ function Guess({
   gameStatus,
   setGameStatus,
   setNumOfGuesses,
+  digits,
 }) {
   const handleChange = e => {
     const num = e.target.value;
@@ -20,8 +20,8 @@ function Guess({
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (!isValidInput(tentativeGuess)) {
-      alert('Enter a valid number!');
+    if (!tentativeGuess) {
+      alert('Enter a valid number!'); //TODO: update alert message
       return;
     }
     const [correct, result] = newRecord(tentativeGuess, target);
@@ -36,16 +36,16 @@ function Guess({
 
   return (
     <>
-      <h2>This is the input area</h2>
       <form onSubmit={e => handleSubmit(e)}>
         <label htmlFor="guess-input">Enter:</label>
         <input
           id="guess-input"
           type="text"
-          pattern="[0-9]{4}" // TODO: verify input num within range
+          pattern={`^[0-7]{${digits}}$`} // TODO: verify input num within range
           value={tentativeGuess}
           onChange={e => handleChange(e)}
           disabled={gameStatus !== 'inGame'}
+          placeholder={`Please enter a ${digits}-digit number`}
           autoComplete="off"
         />
         <button type="submit">Confirm</button>
