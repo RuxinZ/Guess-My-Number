@@ -4,7 +4,7 @@ const app = express();
 
 const PORT = 3001;
 
-app.use('/api/:num', async (req, res) => {
+app.get('/api/:num', async (req, res) => {
   const { num } = req.params;
   const URL = `https://www.random.org/integers/?num=${num}&min=0&max=7&col=1&base=10&format=plain&rnd=new`;
   try {
@@ -24,7 +24,24 @@ app.use('/api/:num', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  return res.json('This is the server');
+  return res.status(200).json('This is the server');
+});
+
+// 404
+app.use((req, res) =>
+  res.status(404).send("This is not the page you're looking for...")
+);
+
+// Global error handler
+app.use((err, req, res) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
 });
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
