@@ -7,7 +7,7 @@ function NewGameBtn({ handleRestart, gameStatus }) {
       onClick={handleRestart}
       disabled={gameStatus === 'loading'}
     >
-      {gameStatus === 'loading' ? 'Restarting' : 'Restart'}
+      {gameStatus === 'loading' ? 'Generating Game' : 'New Game'}
     </button>
   );
 }
