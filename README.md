@@ -58,7 +58,7 @@ This is a simple and straightforward number-guessing game. For each game the pla
 
   ```javascript
   --user credentials table with PK ID
-  CREATE TABLE loginInfo (
+  CREATE TABLE login_info (
     user_id SERIAL PRIMARY KEY,
     user_name VARCHAR NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
@@ -66,17 +66,13 @@ This is a simple and straightforward number-guessing game. For each game the pla
   );
 
   --scores table with highest score and associated user_Id
-  CREATE TABLE highestScores (
+  CREATE TABLE highest_scores (
     record_id SERIAL PRIMARY KEY,
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     score integer NOT NULL,
-    user_id SERIAL REFERENCES loginInfo(user_id) ON DELETE CASCADE
+    user_id SERIAL REFERENCES login_info(user_id) ON DELETE CASCADE
   );
   ```
-
-```sql
-
-```
 
 - Display user score
 - Move from build to production environment
