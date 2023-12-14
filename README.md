@@ -2,7 +2,7 @@
 
 This is a simple and straightforward number-guessing game. For each game the player has **10** attempts to guess the target number, which is a combination of 4 numbers between 0-7 (note: the number of numbers can be adjusted based on difficulty level).
 
-**Try out the game [here](guess-my-number-ruxinz.vercel.app)!**
+**Try out the game [here](https://guess-my-number-bice-eta.vercel.app/)!**
 
 ## 🚀 How To Get Started
 
