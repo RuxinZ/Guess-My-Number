@@ -12,6 +12,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ''),
       },
+      '/user': {
+        target: 'http://localhost:3001/user',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/user/, ''),
+      },
     },
   },
   build: {
