@@ -1,9 +1,11 @@
 import express from 'express';
-
+import userRoute from './route/userRoute.js';
 const app = express();
 
 const PORT = 3001;
 
+app.use(express.json());
+// app.use(bodyParser);
 app.get('/api/:num', async (req, res) => {
   const { num } = req.params;
   const URL = `https://www.random.org/integers/?num=${num}&min=0&max=7&col=1&base=10&format=plain&rnd=new`;
@@ -22,6 +24,8 @@ app.get('/api/:num', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.use('/user', userRoute);
 
 app.get('/', (req, res) => {
   return res.status(200).json('This is the server');
